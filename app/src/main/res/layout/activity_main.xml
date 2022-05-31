@@ -19,20 +19,22 @@
         android:id="@+id/editTxt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Masukkan Username" />
+        android:hint="@string/masuk_username"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editTxt_Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Masukkan Password"
         android:inputType="textPassword"
-        android:hint="Masukkan Password" />
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/button_login"
         android:layout_gravity="center">
     </Button>
 </LinearLayout>
