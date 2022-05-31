@@ -1,5 +1,6 @@
 package com.example.inputpointfti;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,11 +12,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.inputpointfti.ui.home.HomeViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTxtUsername, editTxtPassword;
     private Button btnLogin;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,25 +33,30 @@ public class MainActivity extends AppCompatActivity {
         editTxtPassword = findViewById(R.id.editTxt_Password);
         btnLogin = findViewById(R.id.btn_login);
 
+        mAuth = FirebaseAuth.getInstance();
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String existingUsername = "admin";
-                String existingPassword = "admin";
-
                 String username = editTxtUsername.getText().toString();
                 String password = editTxtPassword.getText().toString();
 
-                if (username.equals(existingUsername) && password.equals(existingPassword))
-                {
-                    Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
-                    intentToHome.putExtra("user", username);
-                    startActivity(intentToHome);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Kombinasi username/password salah", Toast.LENGTH_SHORT).show();
-                }
+                mAuth.signInWithEmailAndPassword(username, password)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful())
+                                {
+                                    Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
+                                    intentToHome.putExtra("user", username);
+                                    startActivity(intentToHome);
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(), "Kombinasi username/password salah", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
     }
