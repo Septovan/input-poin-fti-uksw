@@ -1,10 +1,13 @@
 package com.example.inputpointfti;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.inputpointfti.ui.home.HomeViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +22,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //region USER INFO FROM MAIN TO HOME ACTIVITY
+        Intent intentFromHome = getIntent();
+        String user = intentFromHome.getStringExtra("user");
+        //endregion
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
