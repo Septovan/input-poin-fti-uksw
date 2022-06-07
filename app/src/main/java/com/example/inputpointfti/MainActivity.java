@@ -25,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    //region PRIVATE METHODS
+    private void userIsAuthorized(String username) {
+        Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
+        intentToHome.putExtra("user", username);
+        startActivity(intentToHome);
+        finish();
+    }
+    //endregion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,23 +61,15 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful())
-                                {
                                     userIsAuthorized(username);
-                                }
                                 else
-                                {
-                                    Toast.makeText(getApplicationContext(), "Kombinasi username/password salah", Toast.LENGTH_SHORT).show();
-                                }
+                                    Toast.makeText(getApplicationContext(),
+                                            "Kombinasi username/password salah",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
                             }
                         });
             }
         });
-    }
-
-    private void userIsAuthorized(String username) {
-        Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
-        intentToHome.putExtra("user", username);
-        startActivity(intentToHome);
-        finish();
     }
 }
