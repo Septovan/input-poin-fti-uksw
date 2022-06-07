@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser currUser = mAuth.getCurrentUser();
+        if (currUser != null) {
+            userIsAuthorized(currUser.getEmail());
+        }
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful())
                                 {
-                                    Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
-                                    intentToHome.putExtra("user", username);
-                                    startActivity(intentToHome);
+                                    userIsAuthorized(username);
                                 }
                                 else
                                 {
@@ -59,5 +63,12 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private void userIsAuthorized(String username) {
+        Intent intentToHome = new Intent(MainActivity.this, HomeActivity.class);
+        intentToHome.putExtra("user", username);
+        startActivity(intentToHome);
+        finish();
     }
 }
