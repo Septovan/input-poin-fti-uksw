@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/poin_navigation"
+    app:startDestination="@+id/navigation_lihat">
+
+    <fragment
+        android:id="@+id/navigation_lihat"
+        android:name="com.example.inputpointfti.ui.dashboard.LihatPoinFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_lihat_poin" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.inputpointfti.ui.dashboard.InputPoinFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_input_poin" />
+
+
+</navigation>
