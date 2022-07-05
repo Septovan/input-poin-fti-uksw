@@ -13,7 +13,7 @@
         android:theme="@style/Theme.InputPointFti">
         <activity
             android:name=".HomeActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_home" />
         <activity
             android:name=".MainActivity"
