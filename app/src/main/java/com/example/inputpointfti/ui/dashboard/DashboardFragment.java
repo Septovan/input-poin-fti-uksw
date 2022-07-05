@@ -1,75 +1,62 @@
 package com.example.inputpointfti.ui.dashboard;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.inputpointfti.databinding.FragmentDashboardBinding;
+import androidx.viewpager.widget.ViewPager;
 
-import static android.app.Activity.RESULT_OK;
+import com.example.inputpointfti.R;
+import com.google.android.material.tabs.TabLayout;
+
 
 public class DashboardFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
-    private ImageView imgResult;
-
-    ActivityResultLauncher<Intent> getPhoto = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK){
-                        Bundle extras = result.getData().getExtras();
-                        Bitmap imageCapturedBitmap = (Bitmap) extras.get("data");
-
-                        imgResult.setImageBitmap(imageCapturedBitmap);
-                    }
-                }
-            }
-        );
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-        ImageButton btnAddPhoto = binding.btnAddPhoto;
-        btnAddPhoto.setOnClickListener((view) -> {
-            Intent intentOpenCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            getPhoto.launch(intentOpenCamera);
-        });
-
-        imgResult = binding.imgResult;
-
-        return root;
+    public DashboardFragment() {
+        // Required empty public constructor
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        tabLayout = view.findViewById(R.id.tabmenu);
+        viewPager = view.findViewById(R.id.viewpager);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        tabLayout.addTab(tabLayout.newTab().setText("Lihat Poin"));
+        tabLayout.addTab(tabLayout.newTab().setText("Input Poin"));
+        PagerAdapter pagerAdapter = new PagerAdapter(getContext(), getChildFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(pagerAdapter.getCount() > 1 ? pagerAdapter.getCount() - 1 : 1);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 }

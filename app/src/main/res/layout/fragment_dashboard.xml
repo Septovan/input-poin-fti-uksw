@@ -5,28 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginHorizontal="8dp"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <TextView
-        android:id="@+id/text_dashboard"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabmenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:background="@color/purple_500"
+        app:tabBackground="@color/purple_500"
+        app:tabIconTint="@color/purple_200"
+        app:tabIndicatorColor="@color/purple_200"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/purple_700" />
 
-    <ImageButton
-        android:id="@+id/btn_add_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_add_a_photo" />
-
-    <ImageView
-        android:id="@+id/img_result"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
